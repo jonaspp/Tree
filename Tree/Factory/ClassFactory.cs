@@ -32,14 +32,14 @@ namespace Tree.Factory
             }
             else
             {
-                string className = string.Format("{0}.Impl.{1}Impl", type.Namespace, type.Name);
-                Type classType = Type.GetType(className);
+                string interfaceName = string.Format("{0}.Impl.{1}Impl", type.Namespace, type.Name.Substring(1, type.Name.Length - 1));
+                Type classType = Type.GetType(interfaceName);
                 if (classType == null)
                 {
                     foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
                     {
-                        className = string.Format("{0}.Impl.{1}Impl, {2}", type.Namespace, type.Name, assembly.GetName());
-                        classType = Type.GetType(className);
+                        string implName = string.Format("{0}, {1}", interfaceName, assembly.GetName());
+                        classType = Type.GetType(implName);
                         if (classType != null)
                         {
                             break;

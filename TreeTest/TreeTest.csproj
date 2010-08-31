@@ -38,9 +38,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ITest.cs" />
-    <Compile Include="Impl\ITestImpl.cs" />
+    <Compile Include="Impl\TestImpl.cs" />
     <Compile Include="IWork.cs" />
-    <Compile Include="Impl\IWorkImpl.cs" />
+    <Compile Include="Impl\WorkImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTest.cs" />
   </ItemGroup>

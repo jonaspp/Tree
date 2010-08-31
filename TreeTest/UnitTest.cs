@@ -18,7 +18,7 @@ namespace TreeTest
         [TestMethod]
         public void TestFactory()
         {
-            ITest testObj = ObjectFactory.Register<ITest, ITestImpl>();
+            ITest testObj = ObjectFactory.Register<ITest, TestImpl>();
             Assert.IsNotNull(testObj);
             Assert.AreEqual("Job", testObj.Test());
         }
