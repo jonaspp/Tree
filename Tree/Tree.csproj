@@ -36,12 +36,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factory\ClassFactory.cs" />
-    <Compile Include="Factory\IInitialize.cs" />
-    <Compile Include="Factory\Inject.cs" />
-    <Compile Include="Factory\IReset.cs" />
-    <Compile Include="Factory\IStart.cs" />
-    <Compile Include="Factory\TestCase.cs" />
+    <Compile Include="Container\ObjectContainer.cs" />
+    <Compile Include="Factory\ObjectFactory.cs" />
+    <Compile Include="Lifecycle\IInitialize.cs" />
+    <Compile Include="Injector\Inject.cs" />
+    <Compile Include="Injector\ObjectInjector.cs" />
+    <Compile Include="Lifecycle\IReset.cs" />
+    <Compile Include="Lifecycle\IStart.cs" />
+    <Compile Include="Test\TestCase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
