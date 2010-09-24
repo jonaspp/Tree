@@ -7,21 +7,20 @@ namespace TreeTest.Impl
 {
     public class WorkImpl : IWork, IStart
     {
-        private string attrib = "Idle";
-
+        private string text = "Idle";
         public string Get()
         {
-            return attrib;
+            return text;
         }
 
         public void Start()
         {
-            attrib = "Started";
+            text = "Started";
         }
 
         public void Stop()
         {
-            attrib = "Stopped";
+            text = "Stopped";
         }
     }
 }

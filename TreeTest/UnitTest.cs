@@ -8,6 +8,8 @@ using Tree.Test;
 using Tree.Injector;
 using Tree.Factory;
 using Tree.Container;
+using Tree.Log;
+using Tree.Log.Impl;
 
 namespace TreeTest
 {
@@ -17,9 +19,14 @@ namespace TreeTest
         [Inject()]
         private ITest testObj;
 
+        [Inject()]
+        private ILogger logger;
+
         [TestMethod]
         public void TestFactory()
         {
+            logger.Log("Testing log");
+
             Assert.IsTrue(ObjectContainer.Objects.ContainsValue(testObj));
 
             Assert.IsNotNull(testObj);
