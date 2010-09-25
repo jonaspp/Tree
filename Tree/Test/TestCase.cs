@@ -10,6 +10,7 @@ namespace Tree.Test
     {
         public TestCase()
         {
+
             ObjectInjector.Inject(this);
         }
     }
