@@ -10,6 +10,8 @@ using Tree.Factory;
 using Tree.Container;
 using Tree.Log;
 using Tree.Log.Impl;
+using Tree.Configuration;
+using System.Configuration;
 
 namespace TreeTest
 {
@@ -19,23 +21,18 @@ namespace TreeTest
         [Inject()]
         private ITest testObj;
 
-        [Inject()]
-        private ILogger logger;
-
         [TestMethod]
         public void TestFactory()
         {
-            logger.Log("Testing log");
-
-            Assert.IsTrue(ObjectContainer.Objects.ContainsValue(testObj));
+            Assert.IsTrue(ObjectContainer.StaticInstance.Objects.ContainsValue(testObj));
 
             Assert.IsNotNull(testObj);
             Assert.AreEqual("Idle", testObj.Test());
 
-            ObjectContainer.Start();
+            ObjectContainer.StaticInstance.Start();
             Assert.AreEqual("Started", testObj.Test());
 
-            ObjectContainer.Stop();
+            ObjectContainer.StaticInstance.Stop();
             Assert.AreEqual("Stopped", testObj.Test());
         }
     }

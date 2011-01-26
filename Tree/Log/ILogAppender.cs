@@ -6,12 +6,14 @@ namespace Tree.Log
 {
     public interface ILogAppender
     {
-        string Name { get; }
+        void Write(string message);
 
-        void Start();
+        string Name { get; set; }
 
-        void Write(LogEntry entry);
+        string Pattern { get; set; }
 
-        void Stop();
+        void Setup();
+
+        string Path { get; set; }
     }
 }

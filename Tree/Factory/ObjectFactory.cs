@@ -5,6 +5,7 @@ using System.Reflection;
 using Tree.Lifecycle;
 using Tree.Injector;
 using Tree.Container;
+using System.Runtime.Serialization;
 
 namespace Tree.Factory
 {
@@ -17,41 +18,67 @@ namespace Tree.Factory
                 Type interfaceType = typeof(T);
                 return Get(interfaceType, parameters) as T;
             }
-            throw new NotImplementedException();
+            else
+            {
+                object obj = Create(typeof(T), parameters);
+                return obj as T;
+            }
         }
 
-        public static object Get(Type type, params object [] parameters)
+        private static object Create(Type type, params object[] parameters)
         {
-            if (ObjectContainer.Objects.ContainsKey(type.FullName))
+            Type[] parametersType = new Type[0];
+            if (parameters != null)
             {
-                object obj = ObjectContainer.Objects[type.FullName];
-                if (obj is IReset)
+                parametersType = new Type[parameters.Length];
+                for (int i = 0; i < parameters.Length; i++)
                 {
-                    ((IReset)obj).Reset();
+                    parametersType[i] = parameters[i].GetType();
                 }
-                return obj;
+            }
+            object obj = FormatterServices.GetUninitializedObject(type);
+            ObjectInjector.Inject(obj, type);
+            type.GetConstructor(parametersType).Invoke(obj, parameters);
+
+            if (obj is IInitialize)
+            {
+                ((IInitialize)obj).Initialize();
+            } 
+            if (obj is IStart)
+            {
+                ((IStart)obj).Start();
+            }
+            return obj;
+        }
+
+        internal static object Get(Type type, params object [] parameters)
+        {
+            if (type.IsInterface)
+            {
+                if (ObjectContainer.StaticInstance.Objects.ContainsKey(type.FullName))
+                {
+                    object obj = ObjectContainer.StaticInstance.Objects[type.FullName];
+                    if (obj is IReset)
+                    {
+                        ((IReset)obj).Reset();
+                    }
+                    return obj;
+                }
+                else
+                {
+                    string interfaceName = string.Format("{0}.Impl.{1}Impl", type.Namespace, type.Name.Substring(1, type.Name.Length - 1));
+                    Type classType = GetTypeFrom(interfaceName);
+                    if (classType == null)
+                    {
+                        throw new NotImplementedException();
+                    }
+                    return Register(type, classType, parameters);
+                }
             }
             else
             {
-                string interfaceName = string.Format("{0}.Impl.{1}Impl", type.Namespace, type.Name.Substring(1, type.Name.Length - 1));
-                Type classType = Type.GetType(interfaceName);
-                if (classType == null)
-                {
-                    foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
-                    {
-                        string implName = string.Format("{0}, {1}", interfaceName, assembly.GetName());
-                        classType = Type.GetType(implName);
-                        if (classType != null)
-                        {
-                            break;
-                        }
-                    }
-                }
-                if (classType == null)
-                {
-                    throw new NotImplementedException();
-                }
-                return Register(type, classType, parameters);
+                object obj = Create(type, parameters);
+                return obj;
             }
         }
 
@@ -65,27 +92,29 @@ namespace Tree.Factory
             throw new NotImplementedException();
         }
 
-        private static object Register(Type role, Type impl, params object[] parameters)
+        public static object Register(Type role, Type impl, params object[] parameters)
         {
-            Type[] parametersType = new Type[0];
-            if (parameters != null)
+            object obj = Create(impl, parameters);
+            ObjectContainer.StaticInstance.Objects.Add(role.FullName, obj);
+            return ObjectContainer.StaticInstance.Objects[role.FullName];
+        }
+
+        public static Type GetTypeFrom(string type)
+        {
+            Type classType = Type.GetType(type);
+            if (classType == null)
             {
-                parametersType = new Type[parameters.Length];
-                for (int i = 0; i < parameters.Length; i++)
+                foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    parametersType[i] = parameters[i].GetType();
+                    string implName = string.Format("{0}, {1}", type, assembly.GetName());
+                    classType = Type.GetType(implName);
+                    if (classType != null)
+                    {
+                        break;
+                    }
                 }
             }
-            object obj = impl.GetConstructor(parametersType).Invoke(parameters);
-
-            ObjectInjector.Inject(obj);
-
-            if (obj is IInitialize)
-            {
-                ((IInitialize)obj).Initilize();
-            }
-            ObjectContainer.Objects.Add(role.FullName, obj);
-            return ObjectContainer.Objects[role.FullName];
+            return classType;
         }
     }
 }

@@ -3,51 +3,65 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using Tree.Lifecycle;
+using System.Configuration;
 
 namespace Tree.Log.Impl
 {
-    public class FileLogger : LogAppenderSupport
+    public class FileLogger : ILogAppender
     {
         private StreamWriter logFile = null;
 
-        private string name;
-        private string file;
-        private string path;
-
         public FileLogger()
         {
-            if (string.IsNullOrEmpty(this.name))
-            {
-                this.name = Assembly.GetCallingAssembly().GetName().Name.ToLower();
-            }
-            path = Environment.GetEnvironmentVariable("Appdata") + "\\" + this.name + "\\";
-            file = this.name + "-" + Environment.UserName.Trim().ToLower() + ".log";
-            DirectoryInfo info = new DirectoryInfo(path);
-            if (!info.Exists)
-            {
-                info.Create();
-            }
-            logFile = File.AppendText(path + file);        
+                    
         }
 
-        public override void Write(LogEntry entry)
+        public void Write(string str)
         {
-            lock (logQueue)
-            {
-                logQueue.Enqueue(entry);
-                hasEntriesSignal.Set();
-            }
-        }
-
-        public override string Name
-        {
-            get { return name; }
-        }
-
-        protected override void ProcessWrite(LogEntry entry)
-        {
-            logFile.WriteLine(entry.ToString());
+            logFile.WriteLine(str);
             logFile.Flush();
+        }
+
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        public string Pattern
+        {
+            get;
+            set;
+        }
+
+        public string Path
+        {
+            get;
+            set;
+        }
+
+        public void Setup()
+        {
+            if (string.IsNullOrEmpty(Path))
+            {
+                if (string.IsNullOrEmpty(this.Name))
+                {
+                    Name = Assembly.GetCallingAssembly().GetName().Name.ToLower();
+                }
+                Path = Environment.GetEnvironmentVariable("Appdata") + "\\" + this.Name + "\\";
+                Path = Path + this.Name + "-" + Environment.UserName.Trim().ToLower() + ".log";
+            }
+            else
+            {
+                Path = Environment.ExpandEnvironmentVariables(Path);
+            }
+            FileInfo info = new FileInfo(Path);
+            if (!info.Directory.Exists)
+            {
+                info.Directory.Create();
+            }
+            logFile = File.AppendText(Path);
         }
     }
 }

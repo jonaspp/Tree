@@ -10,7 +10,11 @@ namespace Tree.Injector
     {
         public static void Inject(object obj)
         {
-            Type objType = obj.GetType();
+            Inject(obj, obj.GetType());
+        }
+
+        public static void Inject(object obj, Type objType)
+        {
             foreach (FieldInfo field in objType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic))
             {
                 foreach (object attribute in field.GetCustomAttributes(true))

@@ -6,6 +6,6 @@ namespace Tree.Lifecycle
 {
     public interface IInitialize
     {
-        void Initilize();
+        void Initialize();
     }
 }

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8A9E2B99-E903-456B-BAAF-F68B689C56C5}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{45610EE8-AAF5-4423-84CF-636E20451542}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tree</RootNamespace>
-    <AssemblyName>Tree</AssemblyName>
+    <RootNamespace>TreeDemo</RootNamespace>
+    <AssemblyName>TreeDemo</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,34 +32,49 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Runner.cs" />
-    <Compile Include="Configuration\ContainerConfiguration.cs" />
-    <Compile Include="Configuration\LoggerConfiguration.cs" />
-    <Compile Include="Container\ObjectContainer.cs" />
-    <Compile Include="Factory\ObjectFactory.cs" />
-    <Compile Include="Lifecycle\IConfigure.cs" />
-    <Compile Include="Lifecycle\IInitialize.cs" />
-    <Compile Include="Injector\Inject.cs" />
-    <Compile Include="Injector\ObjectInjector.cs" />
-    <Compile Include="Lifecycle\IReset.cs" />
-    <Compile Include="Lifecycle\IStart.cs" />
-    <Compile Include="Log\Impl\ConsoleLogger.cs" />
-    <Compile Include="Log\Impl\EventLogger.cs" />
-    <Compile Include="Log\Impl\FileLogger.cs" />
-    <Compile Include="Log\ILogAppender.cs" />
-    <Compile Include="Log\ILogger.cs" />
-    <Compile Include="Log\Impl\LogFieldAttribute.cs" />
-    <Compile Include="Log\LogEntry.cs" />
-    <Compile Include="Log\Impl\LoggerImpl.cs" />
-    <Compile Include="Test\TestCase.cs" />
+    <Compile Include="FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tree\Tree.csproj">
+      <Project>{8A9E2B99-E903-456B-BAAF-F68B689C56C5}</Project>
+      <Name>Tree</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

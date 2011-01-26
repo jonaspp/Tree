@@ -7,31 +7,35 @@ namespace Tree.Log.Impl
 {
     public class EventLogger : ILogAppender
     {
-        private string name;
-
-        private EventLogger() { }
-
-        public EventLogger(string name) 
-        {
-            this.name = name;
+        private EventLogger() 
+        { 
         }
 
-        public void Write(LogEntry entry)
+        public void Write(string str)
         {
-            EventLog.WriteEntry(name, entry.ToString(), EventLogEntryType.Information);
-        }
-
-        public void Start()
-        {
-        }
-
-        public void Stop()
-        {
+            EventLog.WriteEntry(Name, str, EventLogEntryType.Information);
         }
 
         public string Name
         {
-            get { return name; }
+            get;
+            set;
+        }
+
+        public string Pattern
+        {
+            get;
+            set;
+        }
+
+        public void Setup()
+        {
+        }
+
+        public string Path
+        {
+            get;
+            set;
         }
     }
 }

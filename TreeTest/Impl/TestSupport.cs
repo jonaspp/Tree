@@ -7,14 +7,14 @@ using Tree.Log;
 
 namespace TreeTest.Impl
 {
-    public class TestImpl : ITest
+    public class TestSupport : ITest
     {
         [Inject()]
         private IWork worker;
 
         public string Test()
         {
-            return worker.Get();
+            return worker.Get() + "support";
         }
     }
 }

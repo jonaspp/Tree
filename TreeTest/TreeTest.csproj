@@ -33,10 +33,12 @@
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Impl\TestSupport.cs" />
     <Compile Include="ITest.cs" />
     <Compile Include="Impl\TestImpl.cs" />
     <Compile Include="IWork.cs" />
@@ -49,6 +51,9 @@
       <Project>{8A9E2B99-E903-456B-BAAF-F68B689C56C5}</Project>
       <Name>Tree</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

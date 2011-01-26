@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Diagnostics;
 using System.Reflection;
+using Tree.Log.Impl;
 
 namespace Tree.Log
 {
@@ -11,16 +12,39 @@ namespace Tree.Log
     {
         public enum Level {Debug, Info, Warning, Error, Fatal};
 
-        public DateTime Date { get; set; }
-        public string ThreadName { get; set; }
         public Level LogLevel { get; set; }
+
+        public DateTime Date { get; set; }
+
+        [LogFieldAttribute("t")]
+        public string ThreadName { get; set; }
+
+        [LogFieldAttribute("d")]
+        public string DateString { get { return DateTime.Now.ToString("dd/MM/yy HH:mm:ss"); } }
+
+        [LogFieldAttribute("l")]
+        public string LogLevelString { get { return LogLevel.ToString().ToUpper(); } }
+
+        [LogFieldAttribute("s")]
         public string Detail { get; set; }
 
-        public LogEntry()
+        [LogFieldAttribute("n")]
+        public string Namespace { get; set; }
+
+        [LogFieldAttribute("c")]
+        public string TypeName { get; set; }
+
+        [LogFieldAttribute("m")]
+        public string MethodName { get; set; }
+
+        [LogFieldAttribute("w")]
+        public string Who { get; set; }
+
+        internal LogEntry()
         {
         }
 
-        public LogEntry(string detail, Level level)
+        internal LogEntry(string detail, Level level)
         {
             this.Detail = detail;
             this.ThreadName = Thread.CurrentThread.Name;
@@ -29,19 +53,43 @@ namespace Tree.Log
 
             StackTrace stackTrace = new StackTrace();
             MethodBase methodBase = stackTrace.GetFrame(2).GetMethod();
-            this.Who = methodBase.DeclaringType.FullName + "." + methodBase.Name + "()";
+            this.MethodName = methodBase.Name;
+            this.Namespace = methodBase.DeclaringType.Namespace;
+            this.TypeName = methodBase.DeclaringType.Name;
+            this.Who = string.Format("{0}.{1}.{2}()", Namespace, TypeName, MethodName);
         }
 
-        public string Who
+        private string GetPattern(string pattern)
         {
-            get;
-            set;
+            foreach (PropertyInfo prop in this.GetType().GetProperties())
+            {
+                foreach (object attribute in prop.GetCustomAttributes(true))
+                {
+                    if (attribute is LogFieldAttribute)
+                    {
+                        string val = (prop.GetValue(this, null) == null) ? "" : prop.GetValue(this, null).ToString();
+                        string p = ((LogFieldAttribute)attribute).Pattern;
+                        
+                        pattern = pattern.Replace("{" + p + "}", val);
+                    }
+                }
+            }
+            pattern = pattern.Replace("\\r", "\r");
+            pattern = pattern.Replace("\\t", "\t");
+            pattern = pattern.Replace("\\n", "\n");
+            return pattern;
         }
 
-        public override string ToString()
+        public string ToString(string pattern)
         {
-            return string.Format("{0}\t{1}  [{2}]  {3}\r\n{4}\r\n", LogLevel.ToString().ToUpper(), DateTime.Now.ToString("dd/MM/yy HH:mm:ss"), ThreadName, Who, Detail);
+            if (string.IsNullOrEmpty(pattern))
+            {
+                return string.Format("{0}\t{1}  [{2}]  {3}\r\n{4}\r\n", LogLevel.ToString().ToUpper(), DateTime.Now.ToString("dd/MM/yy HH:mm:ss"), ThreadName, Who, Detail);
+            }
+            else
+            {
+                return GetPattern(pattern);
+            }
         }
-
     }
 }

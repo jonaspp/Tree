@@ -6,22 +6,31 @@ namespace Tree.Log.Impl
 {
     public class ConsoleLogger : ILogAppender
     {
-        public void Write(LogEntry entry)
-        {
-            Console.WriteLine(entry.ToString());
-        }
-
-        public void Start()
-        {
-        }
-
-        public void Stop()
-        {
-        }
-
         public string Name
         {
-            get { return "ConsoleLogger"; }
+            get;
+            set;
+        }
+
+        public string Pattern
+        {
+            get;
+            set;
+        }
+
+        public void Setup()
+        { 
+        }
+
+        public void Write(string message)
+        {
+           Console.Out.WriteLine(message);
+        }
+
+        public string Path
+        {
+            get;
+            set;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using Tree.Injector;
+using Tree.Container;
 
 namespace Tree.Test
 {
