@@ -18,6 +18,11 @@ namespace Tree
             ObjectContainer.StaticInstance.Start();
         }
 
+        private static void Clean()
+        {
+            ObjectContainer.StaticInstance.Stop();
+        }
+
         public static void ShowForm(Type formType, string[] args)
         {
             Application.EnableVisualStyles();
@@ -26,12 +31,7 @@ namespace Tree
             Form f = ObjectFactory.Get(formType) as Form;
             Application.Run(f);           
             Clean();
-        }
-
-        private static void Clean()
-        {
-            ObjectContainer.StaticInstance.Stop();
-        }
+        }        
 
         public static int Run(string[] args, CustomRunnerHandler handler)
         {
@@ -39,10 +39,9 @@ namespace Tree
             {
                 throw new NotImplementedException();
             }
-            ObjectContainer.StaticInstance.Initialize();
-            ObjectContainer.StaticInstance.Start();
+            Initialize();
             int ret = handler(args);
-            ObjectContainer.StaticInstance.Stop();
+            Clean();
             return ret;
         }
     }
