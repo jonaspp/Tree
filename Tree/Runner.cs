@@ -1,4 +1,4 @@
-﻿using System;
+ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tree.Lifecycle;
@@ -33,16 +33,11 @@ namespace Tree
             Clean();
         }        
 
-        public static int Run(string[] args, CustomRunnerHandler handler)
+        public static void Run<T>(string[] args) where T : IInitialize
         {
-            if (handler == null)
-            {
-                throw new NotImplementedException();
-            }
+            ObjectFactory.Get(typeof(T), args);
             Initialize();
-            int ret = handler(args);
             Clean();
-            return ret;
         }
     }
 }
