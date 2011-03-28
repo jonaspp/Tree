@@ -6,26 +6,32 @@ using Tree.Lifecycle;
 using Tree.Injector;
 using Tree.Container;
 using System.Runtime.Serialization;
+using Tree.Configuration;
+using System.Configuration;
 
 namespace Tree.Factory
 {
     public class ObjectFactory
-    { 
-        public static T Get<T>(params object [] parameters) where T : class
+    {
+        public static T Create<T>(params object[] parameters) where T : class
         {
-            if (typeof(T).IsInterface)
-            {
-                Type interfaceType = typeof(T);
-                return Get(interfaceType, parameters) as T;
-            }
-            else
-            {
-                object obj = Create(typeof(T), parameters);
-                return obj as T;
-            }
+            Type type = typeof(T);
+            object obj = Create(type, parameters);
+            return obj as T;
         }
 
-        private static object Create(Type type, params object[] parameters)
+        public static Type ImplFor(Type type)
+        {
+            string interfaceName = string.Format("{0}.Impl.{1}Impl", type.Namespace, type.Name.Substring(1, type.Name.Length - 1));
+            Type classType = ObjectFactory.TypeFrom(interfaceName);
+            if (classType == null)
+            {
+                throw new NotImplementedException();
+            }
+            return classType;
+        }
+
+        public static object Create(Type type, params object[] parameters)
         {
             Type[] parametersType = new Type[0];
             if (parameters != null)
@@ -40,6 +46,11 @@ namespace Tree.Factory
             ObjectInjector.Inject(obj, type);
             type.GetConstructor(parametersType).Invoke(obj, parameters);
 
+            if (obj is IConfigure)
+            {
+                ContainerElement el = ObjectConfiguration.ConfigurationFor(type); 
+                ((IConfigure)obj).Configure(el);
+            }
             if (obj is IInitialize)
             {
                 ((IInitialize)obj).Initialize();
@@ -49,57 +60,9 @@ namespace Tree.Factory
                 ((IStart)obj).Start();
             }
             return obj;
-        }
+        }        
 
-        internal static object Get(Type type, params object [] parameters)
-        {
-            if (type.IsInterface)
-            {
-                if (ObjectContainer.StaticInstance.Objects.ContainsKey(type.FullName))
-                {
-                    object obj = ObjectContainer.StaticInstance.Objects[type.FullName];
-                    if (obj is IReset)
-                    {
-                        ((IReset)obj).Reset();
-                    }
-                    return obj;
-                }
-                else
-                {
-                    string interfaceName = string.Format("{0}.Impl.{1}Impl", type.Namespace, type.Name.Substring(1, type.Name.Length - 1));
-                    Type classType = GetTypeFrom(interfaceName);
-                    if (classType == null)
-                    {
-                        throw new NotImplementedException();
-                    }
-                    return Register(type, classType, parameters);
-                }
-            }
-            else
-            {
-                object obj = Create(type, parameters);
-                return obj;
-            }
-        }
-
-        public static T Register<T, C>(params object[] parameters) where T : class
-        {
-            if (typeof(T).IsInterface)
-            {
-                Type interfaceType = typeof(T);
-                return Register(interfaceType, typeof(C), parameters) as T;
-            }
-            throw new NotImplementedException();
-        }
-
-        public static object Register(Type role, Type impl, params object[] parameters)
-        {
-            object obj = Create(impl, parameters);
-            ObjectContainer.StaticInstance.Objects.Add(role.FullName, obj);
-            return ObjectContainer.StaticInstance.Objects[role.FullName];
-        }
-
-        public static Type GetTypeFrom(string type)
+        internal static Type TypeFrom(string type)
         {
             Type classType = Type.GetType(type);
             if (classType == null)

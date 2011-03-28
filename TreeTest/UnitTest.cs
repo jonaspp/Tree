@@ -8,32 +8,44 @@ using Tree.Test;
 using Tree.Injector;
 using Tree.Factory;
 using Tree.Container;
-using Tree.Log;
-using Tree.Log.Impl;
-using Tree.Configuration;
 using System.Configuration;
 
 namespace TreeTest
 {
     [TestClass]
-    public class UnitTest : TestCase
+    public class UnitTest : TreeTestCase
     {
         [Inject()]
         private ITest testObj;
 
         [TestMethod]
-        public void TestFactory()
+        public void TestObjectContainer()
         {
-            Assert.IsTrue(ObjectContainer.StaticInstance.Objects.ContainsValue(testObj));
-
+            Assert.IsTrue(ObjectContainer.Static.Objects.ContainsValue(testObj));
             Assert.IsNotNull(testObj);
-            Assert.AreEqual("Idle", testObj.Test());
+            ITest anotherObj = ObjectContainer.Lookup<ITest>();
+            Assert.AreSame(testObj, anotherObj);
+        }
 
-            ObjectContainer.StaticInstance.Start();
-            Assert.AreEqual("Started", testObj.Test());
+        [TestMethod]
+        public void TestContext()
+        {
+            ITest anotherObj = ObjectFactory.Create<TestImpl>();
+            Assert.IsNotNull(anotherObj);
+            Assert.AreNotSame(testObj, anotherObj);
+        }
 
-            ObjectContainer.StaticInstance.Stop();
-            Assert.AreEqual("Stopped", testObj.Test());
+        [TestMethod]
+        public void TestLookup()
+        {
+            Type t = ObjectFactory.ImplFor(typeof(ITest));
+            Assert.AreEqual(t, typeof(TestImpl));
+        }
+
+        [TestMethod]
+        public void TestObjectConfiguration()
+        {
+            Assert.AreEqual(testObj.Test(), "TreeTest.Impl.TestSupport");
         }
     }
 }

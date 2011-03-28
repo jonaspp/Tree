@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using Tree.Factory;
+using Tree.Container;
 
 namespace Tree.Injector
 {
@@ -21,7 +22,7 @@ namespace Tree.Injector
                 {
                     if (attribute is Inject)
                     {
-                        field.SetValue(obj, ObjectFactory.Get(field.FieldType, ((Inject)attribute).Parameters));
+                        field.SetValue(obj, ObjectContainer.Lookup(field.FieldType, ((Inject)attribute).Parameters));
                     }
                 }
             }

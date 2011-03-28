@@ -152,7 +152,7 @@ namespace Tree.Log.Impl
             {
                 foreach (AppenderElement app in config.Appenders)
                 {
-                    ILogAppender appender = (ILogAppender)ObjectFactory.Get(Type.GetType(app.Type));
+                    ILogAppender appender = (ILogAppender)ObjectFactory.Create(Type.GetType(app.Type));
                     appender.Pattern = app.Pattern;
                     appender.Name = app.Name;
                     appender.Path = app.Path;

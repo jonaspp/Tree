@@ -10,17 +10,14 @@ namespace Tree
 {
     public class Runner
     {
-        public delegate int CustomRunnerHandler(string[] args);
-
         private static void Initialize()
         {
-            ObjectContainer.StaticInstance.Initialize();
-            ObjectContainer.StaticInstance.Start();
+            ObjectContainer.Static.Start();
         }
 
         private static void Clean()
         {
-            ObjectContainer.StaticInstance.Stop();
+            ObjectContainer.Static.Stop();
         }
 
         public static void ShowForm(Type formType, string[] args)
@@ -28,14 +25,14 @@ namespace Tree
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Initialize();            
-            Form f = ObjectFactory.Get(formType) as Form;
+            Form f = ObjectFactory.Create(formType) as Form;
             Application.Run(f);           
             Clean();
         }        
 
         public static void Run<T>(string[] args) where T : IInitialize
         {
-            ObjectFactory.Get(typeof(T), args);
+            ObjectFactory.Create(typeof(T), args);
             Initialize();
             Clean();
         }

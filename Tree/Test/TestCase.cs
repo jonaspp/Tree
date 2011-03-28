@@ -7,11 +7,10 @@ using Tree.Container;
 
 namespace Tree.Test
 {
-    public class TestCase
+    public class TreeTestCase
     {
-        public TestCase()
+        public TreeTestCase()
         {
-
             ObjectInjector.Inject(this);
         }
     }

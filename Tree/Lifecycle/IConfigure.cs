@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Configuration;
+using Tree.Configuration;
 
 namespace Tree.Lifecycle
 {
-    interface IConfigure
+    public interface IConfigure
     {
-        void Configure(ConfigurationElement element);
+        void Configure(ContainerElement element);
     }
 }
