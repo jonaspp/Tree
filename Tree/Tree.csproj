@@ -12,6 +12,8 @@
     <AssemblyName>Tree</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,11 +37,13 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ObjectConfiguration.cs" />
+    <Compile Include="Process\ProcessHelper.cs" />
     <Compile Include="Runner.cs" />
     <Compile Include="Configuration\ContainerConfiguration.cs" />
     <Compile Include="Configuration\LoggerConfiguration.cs" />
@@ -51,15 +55,7 @@
     <Compile Include="Injector\ObjectInjector.cs" />
     <Compile Include="Lifecycle\IReset.cs" />
     <Compile Include="Lifecycle\IStart.cs" />
-    <Compile Include="Log\Impl\ConsoleLogger.cs" />
-    <Compile Include="Log\Impl\EventLogger.cs" />
-    <Compile Include="Log\Impl\FileLogger.cs" />
-    <Compile Include="Log\ILogAppender.cs" />
-    <Compile Include="Log\ILogger.cs" />
-    <Compile Include="Log\Impl\LogFieldAttribute.cs" />
-    <Compile Include="Log\LogEntry.cs" />
-    <Compile Include="Log\Impl\LoggerImpl.cs" />
-    <Compile Include="Test\TestCase.cs" />
+    <Compile Include="Test\TreeTestCase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -62,7 +62,7 @@ namespace Tree.Factory
             return obj;
         }        
 
-        internal static Type TypeFrom(string type)
+        public static Type TypeFrom(string type)
         {
             Type classType = Type.GetType(type);
             if (classType == null)

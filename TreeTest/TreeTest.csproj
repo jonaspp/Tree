@@ -44,12 +44,16 @@
     <Compile Include="IWork.cs" />
     <Compile Include="Impl\WorkImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTest.cs" />
+    <Compile Include="ContainerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Grafeas\Grafeas.csproj">
+      <Project>{940148A5-0224-4655-B643-E1FDF53466D4}</Project>
+      <Name>Grafeas</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tree\Tree.csproj">
       <Project>{8A9E2B99-E903-456B-BAAF-F68B689C56C5}</Project>
       <Name>Tree</Name>

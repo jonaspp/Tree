@@ -1,0 +1,5 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <StartArguments>silent daemon=TreeDemo.Demo assembly=TreeDemo</StartArguments>
+  </PropertyGroup>
+</Project>

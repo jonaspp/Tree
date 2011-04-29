@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Tree.Factory;
 using Tree.Injector;
-using Tree.Log;
+using Tree.Grafeas;
 
 namespace TreeTest.Impl
 {
