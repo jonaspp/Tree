@@ -5,15 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8A9E2B99-E903-456B-BAAF-F68B689C56C5}</ProjectGuid>
+    <ProjectGuid>{27F60721-5B92-4FB8-8844-B0533B5C879B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tree</RootNamespace>
-    <AssemblyName>Tree</AssemblyName>
+    <RootNamespace>Archeio</RootNamespace>
+    <AssemblyName>Archeio</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>
-    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,30 +31,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Bamboo.Prevalence, Version=1.4.4.4, Culture=neutral, PublicKeyToken=0edf2245780ab2d7">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Thirdies\Bamboo.Prevalence.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\ObjectConfiguration.cs" />
-    <Compile Include="Process\ProcessHelper.cs" />
-    <Compile Include="Runner.cs" />
-    <Compile Include="Configuration\ContainerConfiguration.cs" />
-    <Compile Include="Configuration\LoggerConfiguration.cs" />
-    <Compile Include="Container\ObjectContainer.cs" />
-    <Compile Include="Factory\ObjectFactory.cs" />
-    <Compile Include="Lifecycle\IConfigure.cs" />
-    <Compile Include="Lifecycle\IInitialize.cs" />
-    <Compile Include="Injector\Inject.cs" />
-    <Compile Include="Injector\ObjectInjector.cs" />
-    <Compile Include="Lifecycle\IReset.cs" />
-    <Compile Include="Lifecycle\IStart.cs" />
-    <Compile Include="Test\TreeTestCase.cs" />
+    <Compile Include="ObjectStore\Impl\Commands\AddToCacheCommand.cs" />
+    <Compile Include="ObjectStore\Impl\Commands\RemoveFromCacheCommand.cs" />
+    <Compile Include="ObjectStore\Impl\Commands\UpdateOnCacheCommand.cs" />
+    <Compile Include="ObjectStore\Impl\PrevalenceObjectStore.cs" />
+    <Compile Include="ObjectStore\ObjectStore.cs" />
+    <Compile Include="ObjectStore\PersistentObject.cs" />
+    <Compile Include="ObjectStore\PrevalentCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tree\Tree.csproj">
+      <Project>{8A9E2B99-E903-456B-BAAF-F68B689C56C5}</Project>
+      <Name>Tree</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />

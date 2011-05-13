@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Daemon", "Daemon\Daemon.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grafeas", "Grafeas\Grafeas.csproj", "{940148A5-0224-4655-B643-E1FDF53466D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archeio", "Archeio\Archeio.csproj", "{27F60721-5B92-4FB8-8844-B0533B5C879B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -103,6 +105,16 @@ Global
 		{940148A5-0224-4655-B643-E1FDF53466D4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{940148A5-0224-4655-B643-E1FDF53466D4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{940148A5-0224-4655-B643-E1FDF53466D4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{27F60721-5B92-4FB8-8844-B0533B5C879B}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{27F60721-5B92-4FB8-8844-B0533B5C879B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27F60721-5B92-4FB8-8844-B0533B5C879B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27F60721-5B92-4FB8-8844-B0533B5C879B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{27F60721-5B92-4FB8-8844-B0533B5C879B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{27F60721-5B92-4FB8-8844-B0533B5C879B}.Release|.NET.ActiveCfg = Release|Any CPU
+		{27F60721-5B92-4FB8-8844-B0533B5C879B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27F60721-5B92-4FB8-8844-B0533B5C879B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27F60721-5B92-4FB8-8844-B0533B5C879B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{27F60721-5B92-4FB8-8844-B0533B5C879B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
