@@ -11,8 +11,10 @@ using Tree.Factory;
 
 namespace Tree.Grafeas.Impl
 {
-    public class LoggerImpl : ILogger, IStart, IInitialize
-    {       
+    public class LoggerImpl : ILogger, IStartable, IInitializable
+    {
+        private DateTime lastRoll = DateTime.Now;
+
         private const int THREAD_TIMEOUT_JOIN = 3000;
         private Thread workerThread;
 
@@ -43,18 +45,22 @@ namespace Tree.Grafeas.Impl
         {
             while (running || logQueue.Count > 0)
             {
-                hasEntriesSignal.Reset();
+                hasEntriesSignal.Reset();                                
                 if (logQueue.Count > 0)
                 {
-                    LogEntry e = logQueue.Dequeue();
-                    ILogAppender a = AppenderFor(e);
-                    if (a != null)
+                    LogEntry entry = logQueue.Dequeue();
+                    ILogAppender appender = AppenderFor(entry);
+                    if (appender != null)
                     {
-                        a.Write(e.ToString(a.Pattern));
+                        if (DateTime.Now > lastRoll.AddHours(12))
+                        {
+                            appender.Roll();
+                        }
+                        appender.Write(entry.ToString(appender.Pattern));
                     }
                     else
                     {
-                        Console.WriteLine(e.ToString(null));
+                        Console.WriteLine(entry.ToString(null));
                     }
                     Thread.Sleep(100);
                 }
@@ -65,15 +71,14 @@ namespace Tree.Grafeas.Impl
             }
         }
 
-        private ILogAppender AppenderFor(LogEntry e)
+        private ILogAppender AppenderFor(LogEntry entry)
         {
             int x = 0, i;
-            ILogAppender ap = null;
-            string[] a1 = e.Namespace.Split('.');
+            ILogAppender appender = null;
+            string[] a1 = entry.Namespace.Split('.');
             foreach(string str in appenders.Keys)
             {
                 string[] a2 = str.Split('.');
-
                 int l = -1;
                 if (a1.Length > a2.Length)
                 {
@@ -94,11 +99,10 @@ namespace Tree.Grafeas.Impl
                 if ((i - (a2.Length - i)) > x)
                 {
                     x = i;
-                    ap = appenders[str];
+                    appender = appenders[str];
                 }
             }
-
-            return ap == null ? defaultAppender : ap;
+            return appender == null ? defaultAppender : appender;
         }
 
         public void Stop()

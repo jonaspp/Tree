@@ -26,25 +26,80 @@ namespace Tree.Daemon
         static extern bool FreeConsole();
 
         private static ILogger logger = ObjectContainer.Lookup<ILogger>();
-        
-        [STAThread()]
-        static void Main(string[] args)
+
+        private static bool isService = true;
+        private static bool isSilent = false;
+                
+        public static void Run(string[] args)
         {
-            bool isService = true;
-            bool isSilent = false;
+            Type typeClass = null;
+            Assembly caller = Assembly.GetCallingAssembly();           
+            IWrappedDaemon daemon = null;
+            
+            foreach (Type t in caller.GetTypes())
+            {
+                foreach (Type i in t.GetInterfaces())
+                {
+                    if (i == typeof(IWrappedDaemon))
+                    {
+                        typeClass = t;
+                    }
+                }
+            }
+            if (typeClass == null)
+            {
+                typeClass = TypeFromArgs(args);
+            }
+
+            daemon = ObjectFactory.Create(typeClass) as IWrappedDaemon;
+            System.Diagnostics.Process parentProcess = ProcessHelper.GetParentProcess();
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+
+            isService &= parentProcess.ProcessName.ToLower().Contains("services");
+            isService &= identity.IsSystem;
+
+            ObjectContainer.Static.Start();
+            if (!isSilent)
+            {
+                if (parentProcess.ProcessName.ToLower().Contains("cmd"))
+                {
+                    AttachConsole(ATTACH_PARENT_PROCESS);
+                }
+            }
+            if (isService)
+            {
+                ServiceBase[] ServicesToRun;
+                ServicesToRun = new ServiceBase[] 
+                { 
+    				new WrappedService(daemon)
+                };
+                ServiceBase.Run(ServicesToRun);
+            }
+            else
+            {
+                daemon.Start(args);
+                daemon.WaitForExit();
+                daemon.Stop();
+            }
+            ObjectContainer.Static.Stop();
+            if (!isSilent)
+            {
+                FreeConsole();
+            }
+        }
+
+        private static Type TypeFromArgs(string[] args)
+        {            
             string type = string.Empty;
             string assembly = string.Empty;
-            IWrappedDaemon daemon = null;
-
             string argsString = "(";
             foreach (string str in args)
             {
-                argsString += str + ","; 
+                argsString += str + ",";
             }
             argsString = argsString.TrimEnd(',') + ")";
             logger.Debug("Starting DaemonRunner with args {0}", argsString);
-
-            System.Diagnostics.Process parentProcess = ProcessHelper.GetParentProcess();
 
             foreach (string str in args)
             {
@@ -62,62 +117,19 @@ namespace Tree.Daemon
                 }
             }
 
-            if(string.IsNullOrEmpty(assembly))
+            if (string.IsNullOrEmpty(assembly))
             {
-                logger.Error("Could not find {0}", assembly);
-                throw new Exception("Could not find " + assembly);
+                logger.Error("Assembly cannot be null.");
+                throw new Exception("Assembly cannot be null.");
             }
 
             if (string.IsNullOrEmpty(type))
             {
-                logger.Error("Could not create {0}", type);
-                throw new Exception("Could not create " + type);
+                logger.Error("Daemon type cannot be null.");
+                throw new Exception("Daemon type cannot be null.");
             }
-
             AppDomain.CurrentDomain.Load(assembly);
-
-            Type t = ObjectFactory.TypeFrom(type);
-            daemon = ObjectFactory.Create(t) as IWrappedDaemon;
-
-            WindowsIdentity identity = WindowsIdentity.GetCurrent();
-            WindowsPrincipal principal = new WindowsPrincipal(identity);
-
-            isService &= parentProcess.ProcessName.ToLower().Contains("services");
-            isService &= identity.IsSystem;
-
-            ObjectContainer.Static.Start();
-            if (!isSilent)
-            {
-                if (parentProcess.ProcessName.ToLower().Contains("cmd"))
-                {
-                    AttachConsole(ATTACH_PARENT_PROCESS);
-                }
-                else
-                {
-                    AllocConsole();
-                }
-            }
-            if (isService)
-            {
-                ServiceBase[] ServicesToRun;
-                ServicesToRun = new ServiceBase[] 
-                { 
-    				new WrappedService(daemon)
-                };
-                ServiceBase.Run(ServicesToRun);
-            }
-            else
-            {
-                daemon.Start(args);
-                daemon.WaitForExit();
-                daemon.Stop();
-
-                if (!isSilent)
-                {
-                    FreeConsole();
-                }
-            }
-            ObjectContainer.Static.Stop();
+            return ObjectFactory.TypeFrom(type);
         }
     }
 }

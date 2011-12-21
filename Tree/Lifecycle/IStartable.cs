@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Tree.Lifecycle
 {
-    public interface IStart
+    public interface IStartable
     {
         void Start();
 

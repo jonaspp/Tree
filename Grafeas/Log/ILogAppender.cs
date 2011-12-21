@@ -15,5 +15,7 @@ namespace Tree.Grafeas
         void Setup();
 
         string Path { get; set; }
+
+        void Roll();
     }
 }

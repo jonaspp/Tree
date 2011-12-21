@@ -8,7 +8,7 @@ using System.Configuration;
 
 namespace Tree.Container
 {
-    public class ObjectContainer : IStart
+    public class ObjectContainer : IStartable
     {        
         public static ObjectContainer Static { get; private set; }
 
@@ -32,15 +32,6 @@ namespace Tree.Container
         public void Start()
         {
             Initialize();
-
-            foreach (string key in Objects.Keys)
-            {
-                object obj = Objects[key];
-                if (obj is IStart)
-                {
-                    ((IStart)obj).Start();
-                }
-            }
         }
 
         public void Stop()
@@ -48,9 +39,9 @@ namespace Tree.Container
             foreach (string key in Objects.Keys)
             {
                 object obj = Objects[key];
-                if (obj is IStart)
+                if (obj is IStartable)
                 {
-                    ((IStart)obj).Stop();
+                    ((IStartable)obj).Stop();
                 }
             }
         }
@@ -82,9 +73,9 @@ namespace Tree.Container
                 if (Static.Objects.ContainsKey(type.FullName))
                 {
                     object obj = Static.Objects[type.FullName];
-                    if (obj is IReset)
+                    if (obj is IRestartable)
                     {
-                        ((IReset)obj).Reset();
+                        ((IRestartable)obj).Retart();
                     }
                     return obj;
                 }
@@ -113,7 +104,10 @@ namespace Tree.Container
         private static object Register(Type role, Type impl, params object[] parameters)
         {
             object obj = ObjectFactory.Create(impl, parameters);
-            Static.Objects.Add(role.FullName, obj);
+            if (!Static.Objects.ContainsKey(role.FullName))
+            {
+                Static.Objects.Add(role.FullName, obj);
+            }
             return obj;
         }
 

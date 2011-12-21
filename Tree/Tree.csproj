@@ -49,12 +49,12 @@
     <Compile Include="Configuration\LoggerConfiguration.cs" />
     <Compile Include="Container\ObjectContainer.cs" />
     <Compile Include="Factory\ObjectFactory.cs" />
-    <Compile Include="Lifecycle\IConfigure.cs" />
-    <Compile Include="Lifecycle\IInitialize.cs" />
+    <Compile Include="Lifecycle\IConfigurable.cs" />
+    <Compile Include="Lifecycle\IInitializable.cs" />
     <Compile Include="Injector\Inject.cs" />
     <Compile Include="Injector\ObjectInjector.cs" />
-    <Compile Include="Lifecycle\IReset.cs" />
-    <Compile Include="Lifecycle\IStart.cs" />
+    <Compile Include="Lifecycle\IRestartable.cs" />
+    <Compile Include="Lifecycle\IStartable.cs" />
     <Compile Include="Test\TreeTestCase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

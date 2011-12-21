@@ -46,18 +46,18 @@ namespace Tree.Factory
             ObjectInjector.Inject(obj, type);
             type.GetConstructor(parametersType).Invoke(obj, parameters);
 
-            if (obj is IConfigure)
+            if (obj is IConfigurable)
             {
                 ContainerElement el = ObjectConfiguration.ConfigurationFor(type); 
-                ((IConfigure)obj).Configure(el);
+                ((IConfigurable)obj).Configure(el);
             }
-            if (obj is IInitialize)
+            if (obj is IInitializable)
             {
-                ((IInitialize)obj).Initialize();
+                ((IInitializable)obj).Initialize();
             } 
-            if (obj is IStart)
+            if (obj is IStartable)
             {
-                ((IStart)obj).Start();
+                ((IStartable)obj).Start();
             }
             return obj;
         }        
@@ -67,10 +67,14 @@ namespace Tree.Factory
             Type classType = Type.GetType(type);
             if (classType == null)
             {
-                foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+                classType = TypeFromFullname(type, Assembly.GetEntryAssembly().GetName().Name);
+                if (classType != null)
                 {
-                    string implName = string.Format("{0}, {1}", type, assembly.GetName());
-                    classType = Type.GetType(implName);
+                    return classType;
+                }
+                foreach (AssemblyName assembly in Assembly.GetEntryAssembly().GetReferencedAssemblies())
+                {
+                    classType = TypeFromFullname(type, assembly.Name);
                     if (classType != null)
                     {
                         break;
@@ -78,6 +82,12 @@ namespace Tree.Factory
                 }
             }
             return classType;
+        }
+
+        private static Type TypeFromFullname(string type, string name)
+        {
+            string implName = string.Format("{0}, {1}", type, name);
+            return Type.GetType(implName);
         }
     }
 }

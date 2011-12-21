@@ -30,7 +30,7 @@ namespace Tree
             Clean();
         }        
 
-        public static void Run<T>(string[] args) where T : IInitialize
+        public static void Run<T>(string[] args) where T : IInitializable
         {
             ObjectFactory.Create(typeof(T), args);
             Initialize();

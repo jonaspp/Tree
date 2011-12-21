@@ -10,7 +10,7 @@ using Tree.Configuration;
 
 namespace TreeTest.Impl
 {
-    public class TestSupport : ITest, Tree.Lifecycle.IConfigure
+    public class TestSupport : ITest, Tree.Lifecycle.IConfigurable
     {
         private string val;
 

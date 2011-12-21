@@ -6,7 +6,7 @@ using Tree.Configuration;
 
 namespace Tree.Lifecycle
 {
-    public interface IConfigure
+    public interface IConfigurable
     {
         void Configure(ContainerElement element);
     }

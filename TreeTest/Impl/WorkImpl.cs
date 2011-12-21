@@ -5,7 +5,7 @@ using Tree.Lifecycle;
 
 namespace TreeTest.Impl
 {
-    public class WorkImpl : IWork, IStart
+    public class WorkImpl : IWork, IStartable
     {
         private string text = "Idle";
         public string Get()

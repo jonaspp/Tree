@@ -6,7 +6,7 @@
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{45610EE8-AAF5-4423-84CF-636E20451542}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TreeDemo</RootNamespace>
     <AssemblyName>TreeDemo</AssemblyName>
@@ -63,6 +63,11 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Points\Impl\PointManagerImpl.cs" />
+    <Compile Include="Points\Impl\SimplePoint.cs" />
+    <Compile Include="Points\IPoint.cs" />
+    <Compile Include="Points\IPointManager.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
@@ -77,6 +82,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -88,6 +94,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Archeio\Archeio.csproj">
+      <Project>{27F60721-5B92-4FB8-8844-B0533B5C879B}</Project>
+      <Name>Archeio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Daemon\Daemon.csproj">
       <Project>{4DD5B012-AFD6-4A75-B02A-2202E76D3393}</Project>
       <Name>Daemon</Name>

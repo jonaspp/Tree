@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Tree.Lifecycle
 {
-    public interface IReset
+    public interface IInitializable
     {
-        void Reset();
+        void Initialize();
     }
 }

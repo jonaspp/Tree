@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Tree.Lifecycle
 {
-    public interface IInitialize
+    public interface IRestartable
     {
-        void Initialize();
+        void Retart();
     }
 }

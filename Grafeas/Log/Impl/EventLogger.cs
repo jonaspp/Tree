@@ -37,5 +37,9 @@ namespace Tree.Grafeas.Impl
             get;
             set;
         }
+
+        public void Roll()
+        {
+        }
     }
 }
