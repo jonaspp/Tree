@@ -25,19 +25,53 @@ namespace TreeDemo
             Thread.CurrentThread.Name = "MAIN";
             logger.Debug("Running!");
             InitializeComponent();
+
+            LoadPoints();
+        }
+
+        private void LoadPoints()
+        {
+            foreach (IPoint p in points.Points())
+            {
+                logger.Log("Loading '{0}'", p.ToString());
+                AddToList(p);
+            }
+        }
+
+        private void AddToList(IPoint p)
+        {
+            ListViewItem i = new ListViewItem(p.ToString());
+            i.Tag = p;
+            listViewPoints.Items.Add(i);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            logger.Warn("CLICKED!!");
-            IPoint p = points.Create(10, 20);
+            int x, y;
+            Random r = new Random(DateTime.Now.Millisecond);
+            x = r.Next(0, 99);
+            y = r.Next(0, 99);
+
+            logger.Log("Creating a random point @ ({0}, {1})", x, y);
+            IPoint p = points.Create(x, y);
             points.Add(p);
-            p = points.Create(11, 21);
-            points.Add(p);
-            p = points.Create(12, 22);
-            points.Add(p);
-            p = points.Create(13, 23);
-            points.Add(p);
+            AddToList(p);
+        }
+
+        private void listViewPoints_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            buttonRemove.Enabled = listViewPoints.SelectedItems != null && listViewPoints.SelectedItems.Count > 0;
+        }
+
+        private void buttonRemove_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem i in listViewPoints.SelectedItems)
+            {
+                IPoint p = i.Tag as IPoint;
+                logger.Log("Removing '{0}'", p.ToString());
+                points.Remove(p);
+                listViewPoints.Items.Remove(i);
+            }
         }
     }
 }

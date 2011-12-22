@@ -6,17 +6,17 @@ using Bamboo.Prevalence;
 namespace Tree.Archeio.ObjectStore.Impl.Commands
 {
     [Serializable]
-    public class AddToCacheCommand : ICommand
+    public class AddToCacheCommand<T> : ICommand where T : PersistentObject
     {
-        private PersistentObject obj = null;
-        public AddToCacheCommand(PersistentObject obj)
+        private T obj;
+        public AddToCacheCommand(T obj)
         {
             this.obj = obj;
         }
         public object Execute(object system)
         {
             PrevalentCache cache = (PrevalentCache)system;
-            cache.Add(obj);
+            cache.Add(typeof(T), obj);
             return cache;
         }
     }

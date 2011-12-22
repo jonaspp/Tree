@@ -55,7 +55,7 @@ namespace Tree.Grafeas
             this.Date = DateTime.Now;
 
             StackTrace stackTrace = new StackTrace();
-            MethodBase methodBase = stackTrace.GetFrame(2).GetMethod();
+            MethodBase methodBase = stackTrace.GetFrame(3).GetMethod();
             this.MethodName = methodBase.Name;
             this.Namespace = methodBase.DeclaringType.Namespace;
             this.TypeName = methodBase.DeclaringType.Name;

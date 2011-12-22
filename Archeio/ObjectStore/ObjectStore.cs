@@ -6,17 +6,13 @@ namespace Tree.Archeio.ObjectStore
 {
     public interface ObjectStore
     {
-        PersistentObject GetById(Type t, long id);
+        T GetById<T>(long id) where T : PersistentObject;
 
-        List<PersistentObject> GetAll(Type t);
+        List<T> GetAll<T>() where T : PersistentObject;
 
-        long Store(PersistentObject obj);
+        long Store<T>(T obj) where T : PersistentObject;
 
-        void Insert(PersistentObject obj);
-
-        long Update(PersistentObject obj);
-
-        long Delete(PersistentObject obj);
+        long Delete<T>(T obj) where T : PersistentObject;
 
         void Clear();
 

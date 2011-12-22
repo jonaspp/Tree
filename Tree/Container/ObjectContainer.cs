@@ -15,7 +15,6 @@ namespace Tree.Container
         static ObjectContainer()
         {
             Static = new ObjectContainer();
-            ObjectContainer.Static.Start();
         }
 
         public Dictionary<string, object> Objects

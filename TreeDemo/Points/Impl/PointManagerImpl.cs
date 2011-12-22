@@ -16,16 +16,8 @@ namespace TreeDemo.Points.Impl
 
         public void Initialize()
         {
-            points = store.GetAll(typeof(IPoint)).ConvertAll<IPoint>
-            (new Converter<PersistentObject, IPoint>
-                (delegate(PersistentObject o)
-                {
-                    return (IPoint)o;
-                }
-             ));
+            points = store.GetAll<IPoint>();
         }
-
-        #region IPointManager Members
 
         public List<IPoint> Points()
         {
@@ -35,8 +27,7 @@ namespace TreeDemo.Points.Impl
         public void Add(IPoint p)
         {
             points.Add(p);
-            store.Store(p);
-            store.TakeSnapshot();
+            store.Store<IPoint>(p);
         }
 
         public void Remove(IPoint p)
@@ -50,7 +41,5 @@ namespace TreeDemo.Points.Impl
         {
             return new SimplePoint(x, y);
         }
-
-        #endregion
     }
 }

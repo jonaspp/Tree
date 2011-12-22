@@ -30,5 +30,10 @@ namespace TreeDemo.Points.Impl
             get;
             set;
         }
+
+        public override string ToString()
+        {
+            return string.Format("Point @ ({0}, {1})", X, Y);
+        }
     }
 }

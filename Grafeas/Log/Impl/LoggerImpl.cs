@@ -143,22 +143,22 @@ namespace Tree.Grafeas.Impl
             Warn(string.Format(message, args));
         }
 
-        public void Log(string message)
+        private void Log(string message)
         {
             ProcessWrite(new LogEntry(message, LogEntry.Level.Info));
         }
 
-        public void Error(string message)
+        private void Error(string message)
         {
             ProcessWrite(new LogEntry(message, LogEntry.Level.Error));
         }
 
-        public void Debug(string message)
+        private void Debug(string message)
         {
             ProcessWrite(new LogEntry(message, LogEntry.Level.Debug));
         }
 
-        public void Warn(string message)
+        private void Warn(string message)
         {
             ProcessWrite(new LogEntry(message, LogEntry.Level.Warning));
         }

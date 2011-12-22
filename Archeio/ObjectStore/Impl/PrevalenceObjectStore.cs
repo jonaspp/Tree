@@ -35,6 +35,29 @@ namespace Tree.Archeio.ObjectStore.Impl
             return null;
         }
 
+        public T GetById<T>(long id) where T : PersistentObject
+        {
+            List<T> all = GetAll<T>();
+            foreach (T obj in all)
+            {
+                if (obj.Id == id)
+                {
+                    return obj;
+                }
+            }
+            return default(T);
+        }
+
+        public List<T> GetAll<T>() where T : PersistentObject
+        {
+            List<T> all = cache.Get<T>();
+            foreach (T obj in all)
+            {
+                ObjectInjector.Inject(obj);
+            }
+            return all;
+        }
+
         public List<PersistentObject> GetAll(Type t)
         {
             List<PersistentObject> all = cache.Get(t);
@@ -45,37 +68,9 @@ namespace Tree.Archeio.ObjectStore.Impl
             return all;
         }
 
-        public long Store(PersistentObject obj)
+        public long Delete<T>(T obj) where T : PersistentObject
         {
-            ICommand command;
-            long nextId = 0;
-            if (obj.Id <= 0)
-            {
-                nextId = NextId(obj);
-                obj.Id = nextId;
-                command = new AddToCacheCommand(obj);
-            }
-            else
-            {
-                command = new UpdateOnCacheCommand(obj);
-            }
-            engine.ExecuteCommand(command);
-            return nextId;
-        }
-
-        public void Insert(PersistentObject obj)
-        {
-            Store(obj);
-        }
-
-        public long Update(PersistentObject obj)
-        {
-            return Store(obj);
-        }
-
-        public long Delete(PersistentObject obj)
-        {
-            RemoveFromCacheCommand command = new RemoveFromCacheCommand(obj);
+            RemoveFromCacheCommand<T> command = new RemoveFromCacheCommand<T>(obj);
             engine.ExecuteCommand(command);
             return obj.Id;
         }
@@ -90,11 +85,11 @@ namespace Tree.Archeio.ObjectStore.Impl
             engine.TakeSnapshot();
         }
 
-        private long NextId(PersistentObject obj)
+        private long NextId<T>(T obj) where T: PersistentObject
         {
 		    lock (syncRoot)
             {
-	            Type t = obj.GetType();
+                Type t = typeof(T);
                 List<PersistentObject> all = GetAll(t);
                 if(all.Count == 0)
                 {
@@ -110,6 +105,24 @@ namespace Tree.Archeio.ObjectStore.Impl
                 }
                 return nextId + 1; 
             }
+        }
+
+        public long Store<T>(T obj) where T : PersistentObject
+        {
+            ICommand command;
+            long nextId = 0;            
+            if (obj.Id <= 0)
+            {
+                nextId = NextId(obj);
+                obj.Id = nextId;
+                command = new AddToCacheCommand<T>(obj);
+            }
+            else
+            {
+                command = new UpdateOnCacheCommand<T>(obj);
+            }
+            engine.ExecuteCommand(command);
+            return nextId;
         }
     }
 }

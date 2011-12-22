@@ -25,10 +25,19 @@ namespace Tree.Archeio.ObjectStore
             cache.Clear();
         }
 
+        public List<T> Get<T>() where T : PersistentObject
+        {
+            List<T> result = new List<T>();
+            if (!cache.ContainsKey(typeof(T)))
+            {
+                cache.Add(typeof(T), new List<PersistentObject>());
+            }
+            return cache[typeof(T)].ConvertAll<T>(new Converter<PersistentObject, T>(delegate(PersistentObject o) { return (T)o; })); ;
+        }
+
         public List<PersistentObject> Get(Type t)
         {
             List<PersistentObject> result = new List<PersistentObject>();
-
             if (!cache.ContainsKey(t))
             {
                 cache.Add(t, new List<PersistentObject>());
@@ -41,9 +50,9 @@ namespace Tree.Archeio.ObjectStore
             cache.Add(t, objects);
         }
 
-        public void Remove(PersistentObject obj)
+        public void Remove(Type t, PersistentObject obj)
         {
-            List<PersistentObject> all = Get(obj.GetType());
+            List<PersistentObject> all = Get(t);
             long id = obj.Id;
             if (all.Count > 0)
             {
@@ -58,9 +67,8 @@ namespace Tree.Archeio.ObjectStore
             }
         }
 
-        public void Add(PersistentObject obj)
+        public void Add(Type t, PersistentObject obj)
         {
-            Type t = obj.GetType();
             List<PersistentObject> objects = Get(t);
             objects.Add(obj);
         }

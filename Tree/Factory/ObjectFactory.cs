@@ -67,17 +67,31 @@ namespace Tree.Factory
             Type classType = Type.GetType(type);
             if (classType == null)
             {
-                classType = TypeFromFullname(type, Assembly.GetEntryAssembly().GetName().Name);
-                if (classType != null)
+                if (Assembly.GetEntryAssembly() == null)
                 {
-                    return classType;
+                    foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+                    {
+                        classType = TypeFromFullname(type, assembly.GetName().Name);
+                        if (classType != null)
+                        {
+                            break;
+                        }
+                    }
                 }
-                foreach (AssemblyName assembly in Assembly.GetEntryAssembly().GetReferencedAssemblies())
+                else
                 {
-                    classType = TypeFromFullname(type, assembly.Name);
+                    classType = TypeFromFullname(type, Assembly.GetEntryAssembly().GetName().Name);
                     if (classType != null)
                     {
-                        break;
+                        return classType;
+                    }
+                    foreach (AssemblyName assembly in Assembly.GetEntryAssembly().GetReferencedAssemblies())
+                    {
+                        classType = TypeFromFullname(type, assembly.Name);
+                        if (classType != null)
+                        {
+                            break;
+                        }
                     }
                 }
             }
