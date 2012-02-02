@@ -5,20 +5,32 @@ using System.IO;
 using Bamboo.Prevalence;
 using Tree.Archeio.ObjectStore.Impl.Commands;
 using Tree.Injector;
+using Tree.Lifecycle;
+using Tree.Configuration;
 
 namespace Tree.Archeio.ObjectStore.Impl
 {
-    public class PrevalenceObjectStore : ObjectStore
+    public class PrevalenceObjectStore : IObjectStore, IConfigurable
     {
+        private bool snapshotAtStart;
+
+        private string path;
+
+        [Inject]
+        private IObjectInjector injector;
+        
         private PrevalenceEngine engine = null;
         private PrevalentCache cache = null;
         private object syncRoot = new object();
 
         public PrevalenceObjectStore()
         {
-            string path = Path.Combine(Environment.CurrentDirectory, "data");
             engine = PrevalenceActivator.CreateEngine(typeof(PrevalentCache), path);
             cache = engine.PrevalentSystem as PrevalentCache;
+            if (snapshotAtStart)
+            {
+                engine.TakeSnapshot();
+            }
         }
 
         public PersistentObject GetById(Type t, long id)
@@ -28,7 +40,7 @@ namespace Tree.Archeio.ObjectStore.Impl
             {
                 if (obj.Id == id)
                 {
-                    ObjectInjector.Inject(obj);
+                    injector.Inject(obj);
                     return obj;
                 }
             }
@@ -53,7 +65,7 @@ namespace Tree.Archeio.ObjectStore.Impl
             List<T> all = cache.Get<T>();
             foreach (T obj in all)
             {
-                ObjectInjector.Inject(obj);
+                injector.Inject(obj);
             }
             return all;
         }
@@ -63,7 +75,7 @@ namespace Tree.Archeio.ObjectStore.Impl
             List<PersistentObject> all = cache.Get(t);
             foreach (PersistentObject obj in all)
             {
-                ObjectInjector.Inject(obj);
+                injector.Inject(obj);
             }
             return all;
         }
@@ -123,6 +135,11 @@ namespace Tree.Archeio.ObjectStore.Impl
             }
             engine.ExecuteCommand(command);
             return nextId;
+        }
+
+
+        public void Configure()
+        {
         }
     }
 }

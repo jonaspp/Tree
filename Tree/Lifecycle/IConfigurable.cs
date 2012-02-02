@@ -8,6 +8,6 @@ namespace Tree.Lifecycle
 {
     public interface IConfigurable
     {
-        void Configure(ContainerElement element);
+        void Configure();
     }
 }

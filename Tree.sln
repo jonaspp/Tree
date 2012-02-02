@@ -10,7 +10,7 @@ EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "AspNetDemo", "AspNetDemo\", "{E9718820-5BC8-48D8-B608-3F77354BE27B}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFramework = "3.5"
-		ProjectReferences = "{8A9E2B99-E903-456B-BAAF-F68B689C56C5}|Tree.dll;"
+		ProjectReferences = "{8A9E2B99-E903-456B-BAAF-F68B689C56C5}|Tree.dll;{940148A5-0224-4655-B643-E1FDF53466D4}|Grafeas.dll;{27F60721-5B92-4FB8-8844-B0533B5C879B}|Archeio.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/AspNetDemo"
 		Debug.AspNetCompiler.PhysicalPath = "AspNetDemo\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\AspNetDemo\"
@@ -29,11 +29,11 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "AspNetDemo", "AspNetDemo\",
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Daemon", "Daemon\Daemon.csproj", "{4DD5B012-AFD6-4A75-B02A-2202E76D3393}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grafeas", "Grafeas\Grafeas.csproj", "{940148A5-0224-4655-B643-E1FDF53466D4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archeio", "Archeio\Archeio.csproj", "{27F60721-5B92-4FB8-8844-B0533B5C879B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{F6D3A2DC-CE09-4604-AD33-72A5A82D5F5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,16 +85,6 @@ Global
 		{E9718820-5BC8-48D8-B608-3F77354BE27B}.Release|Any CPU.ActiveCfg = Debug|.NET
 		{E9718820-5BC8-48D8-B608-3F77354BE27B}.Release|Mixed Platforms.ActiveCfg = Debug|.NET
 		{E9718820-5BC8-48D8-B608-3F77354BE27B}.Release|Mixed Platforms.Build.0 = Debug|.NET
-		{4DD5B012-AFD6-4A75-B02A-2202E76D3393}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{4DD5B012-AFD6-4A75-B02A-2202E76D3393}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DD5B012-AFD6-4A75-B02A-2202E76D3393}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4DD5B012-AFD6-4A75-B02A-2202E76D3393}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{4DD5B012-AFD6-4A75-B02A-2202E76D3393}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{4DD5B012-AFD6-4A75-B02A-2202E76D3393}.Release|.NET.ActiveCfg = Release|Any CPU
-		{4DD5B012-AFD6-4A75-B02A-2202E76D3393}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4DD5B012-AFD6-4A75-B02A-2202E76D3393}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4DD5B012-AFD6-4A75-B02A-2202E76D3393}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{4DD5B012-AFD6-4A75-B02A-2202E76D3393}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{940148A5-0224-4655-B643-E1FDF53466D4}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{940148A5-0224-4655-B643-E1FDF53466D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{940148A5-0224-4655-B643-E1FDF53466D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -115,6 +105,16 @@ Global
 		{27F60721-5B92-4FB8-8844-B0533B5C879B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{27F60721-5B92-4FB8-8844-B0533B5C879B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{27F60721-5B92-4FB8-8844-B0533B5C879B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F6D3A2DC-CE09-4604-AD33-72A5A82D5F5F}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{F6D3A2DC-CE09-4604-AD33-72A5A82D5F5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6D3A2DC-CE09-4604-AD33-72A5A82D5F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6D3A2DC-CE09-4604-AD33-72A5A82D5F5F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F6D3A2DC-CE09-4604-AD33-72A5A82D5F5F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F6D3A2DC-CE09-4604-AD33-72A5A82D5F5F}.Release|.NET.ActiveCfg = Release|Any CPU
+		{F6D3A2DC-CE09-4604-AD33-72A5A82D5F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6D3A2DC-CE09-4604-AD33-72A5A82D5F5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6D3A2DC-CE09-4604-AD33-72A5A82D5F5F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F6D3A2DC-CE09-4604-AD33-72A5A82D5F5F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,12 +7,16 @@ using System.Reflection;
 using Tree.Lifecycle;
 using Tree.Configuration;
 using System.Configuration;
+using Tree.Injector;
 using Tree.Factory;
 
 namespace Tree.Grafeas.Impl
 {
     public class LoggerImpl : ILogger, IStartable, IInitializable
     {
+        [Inject]
+        private IObjectFactory factory;
+
         private DateTime lastRoll = DateTime.Now;
 
         private const int THREAD_TIMEOUT_JOIN = 3000;
@@ -176,7 +180,7 @@ namespace Tree.Grafeas.Impl
             {
                 foreach (AppenderElement app in config.Appenders)
                 {
-                    ILogAppender appender = (ILogAppender)ObjectFactory.Create(Type.GetType(app.Type));
+                    ILogAppender appender = Core.Factory.Create(Type.GetType(app.Type)) as ILogAppender;
                     appender.Pattern = app.Pattern;
                     appender.Name = app.Name;
                     appender.Path = app.Path;

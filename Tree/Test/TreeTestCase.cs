@@ -11,7 +11,7 @@ namespace Tree.Test
     {
         public TreeTestCase()
         {
-            ObjectInjector.Inject(this);
+            Core.Injector.Inject(this);
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Tree;
-using Tree.Daemon;
 
 namespace TreeDemo
 {
@@ -11,7 +10,7 @@ namespace TreeDemo
         [STAThread()]
         public static void Main(string[] args)
         {
-            DaemonRunner.Run(args);
+            Core.Run(args);
         }
     }
 }

@@ -5,16 +5,17 @@ using System.Text;
 namespace Tree.Grafeas.Impl
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    public class LogFieldAttribute : Attribute
+    public class LogDateTimeFieldAttribute : LogFieldAttribute
     {
-        public string Name
+        public string DateFormat
         {
             get;
             private set;
         }
-        public LogFieldAttribute(string name)
+        public LogDateTimeFieldAttribute(string name, string dateFormat)
+            : base(name)
         {
-            Name = name;
+            DateFormat = dateFormat;
         }
     }
 }

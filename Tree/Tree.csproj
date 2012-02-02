@@ -43,20 +43,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ObjectConfiguration.cs" />
+    <Compile Include="Container\IObjectContainer.cs" />
+    <Compile Include="Factory\IObjectFactory.cs" />
+    <Compile Include="Injector\IObjectInjector.cs" />
     <Compile Include="Process\ProcessHelper.cs" />
-    <Compile Include="Runner.cs" />
     <Compile Include="Configuration\ContainerConfiguration.cs" />
     <Compile Include="Configuration\LoggerConfiguration.cs" />
-    <Compile Include="Container\ObjectContainer.cs" />
-    <Compile Include="Factory\ObjectFactory.cs" />
+    <Compile Include="Container\Impl\ObjectContainerImpl.cs" />
+    <Compile Include="Factory\Impl\ObjectFactoryImpl.cs" />
     <Compile Include="Lifecycle\IConfigurable.cs" />
     <Compile Include="Lifecycle\IInitializable.cs" />
     <Compile Include="Injector\Inject.cs" />
-    <Compile Include="Injector\ObjectInjector.cs" />
-    <Compile Include="Lifecycle\IRestartable.cs" />
+    <Compile Include="Injector\Impl\ObjectInjectorImpl.cs" />
     <Compile Include="Lifecycle\IStartable.cs" />
+    <Compile Include="Runner\Dromeas.cs" />
+    <Compile Include="Runner\IEntryPoint.cs" />
+    <Compile Include="Runner\WrappedService.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Test\TreeTestCase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Core.cs" />
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />

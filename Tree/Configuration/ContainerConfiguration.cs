@@ -126,6 +126,7 @@ namespace Tree.Configuration
                 this["type"] = value;
             }
         }
+
         [ConfigurationProperty("impl")]
         public string Impl
         {
@@ -136,6 +137,45 @@ namespace Tree.Configuration
             set
             {
                 this["impl"] = value;
+            }
+        }
+
+        [ConfigurationProperty("state", IsRequired = false)]
+        internal string State
+        {
+            get
+            {
+                return (string)this["state"];
+            }
+            set
+            {
+                this["state"] = value;
+            }
+        }
+
+
+        public Dictionary<string, object> StateProperties
+        {
+            get
+            {
+                string raw = State;
+                if (String.IsNullOrEmpty(raw))
+                {
+                    return null;
+                }
+                Dictionary<string, object> props = new Dictionary<string, object>();
+                string[] array = raw.Split(',');
+                foreach (string p in array)
+                {
+                    if (p.Contains("="))
+                    {
+                        int token = p.IndexOf('=');
+                        string key = p.Substring(0, token);
+                        string value = p.Substring(token + 1);
+                        props.Add(key, value);
+                    }
+                }
+                return props;
             }
         }
     }

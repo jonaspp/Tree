@@ -10,7 +10,7 @@ namespace TreeDemo.Points.Impl
     public class PointManagerImpl : IPointManager, IInitializable
     {
         [Inject()]
-        private ObjectStore store;
+        private IObjectStore store;
 
         private List<IPoint> points = new List<IPoint>();
 
@@ -33,7 +33,7 @@ namespace TreeDemo.Points.Impl
         public void Remove(IPoint p)
         {
             points.Remove(p);
-            store.Delete(p);
+            store.Delete<IPoint>(p);
             store.TakeSnapshot();
         }
 

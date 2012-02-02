@@ -25,7 +25,7 @@ namespace Tree.Daemon
         [DllImport("kernel32.dll")]
         static extern bool FreeConsole();
 
-        private static ILogger logger = ObjectContainer.Lookup<ILogger>();
+        private static ILogger logger = Core.Container.Lookup<ILogger>();
 
         private static bool isService = true;
         private static bool isSilent = false;
@@ -51,7 +51,7 @@ namespace Tree.Daemon
                 typeClass = TypeFromArgs(args);
             }
 
-            daemon = ObjectFactory.Create(typeClass) as IWrappedDaemon;
+            daemon = Core.Factory.Create(typeClass) as IWrappedDaemon;
             System.Diagnostics.Process parentProcess = ProcessHelper.GetParentProcess();
             WindowsIdentity identity = WindowsIdentity.GetCurrent();
             WindowsPrincipal principal = new WindowsPrincipal(identity);
@@ -59,7 +59,6 @@ namespace Tree.Daemon
             isService &= parentProcess.ProcessName.ToLower().Contains("services");
             isService &= identity.IsSystem;
 
-            ObjectContainer.Static.Start();
             if (!isSilent)
             {
                 if (parentProcess.ProcessName.ToLower().Contains("cmd"))
@@ -82,7 +81,7 @@ namespace Tree.Daemon
                 daemon.WaitForExit();
                 daemon.Stop();
             }
-            ObjectContainer.Static.Stop();
+            Core.Container.Stop();
             if (!isSilent)
             {
                 FreeConsole();
@@ -129,7 +128,7 @@ namespace Tree.Daemon
                 throw new Exception("Daemon type cannot be null.");
             }
             AppDomain.CurrentDomain.Load(assembly);
-            return ObjectFactory.TypeFrom(type);
+            return Core.Factory.TypeFrom(type);
         }
     }
 }

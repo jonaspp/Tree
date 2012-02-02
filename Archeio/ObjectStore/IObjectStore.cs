@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Tree.Archeio.ObjectStore
 {
-    public interface ObjectStore
+    public interface IObjectStore
     {
         T GetById<T>(long id) where T : PersistentObject;
 

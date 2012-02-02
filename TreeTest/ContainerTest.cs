@@ -12,6 +12,7 @@ using Tree.Grafeas;
 using Tree.Grafeas.Impl;
 using Tree.Configuration;
 using System.Configuration;
+using Tree;
 
 namespace TreeTest
 {
@@ -24,11 +25,11 @@ namespace TreeTest
         [TestMethod]
         public void TestInitialization()
         {
-            Assert.IsTrue(ObjectContainer.Static.Objects.ContainsValue(testObj));
+            Assert.IsTrue(Core.Container.Objects.ContainsValue(testObj));
             Assert.IsNotNull(testObj);
 
             Assert.AreEqual("Started", testObj.Test());
-            ObjectContainer.Static.Stop();
+            Core.Container.Stop();
             Assert.AreEqual("Stopped", testObj.Test());
         }
     }

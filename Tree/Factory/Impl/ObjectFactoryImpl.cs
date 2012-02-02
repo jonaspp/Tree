@@ -8,22 +8,23 @@ using Tree.Container;
 using System.Runtime.Serialization;
 using Tree.Configuration;
 using System.Configuration;
+using System.Globalization;
 
-namespace Tree.Factory
+namespace Tree.Factory.Impl
 {
-    public class ObjectFactory
+    class ObjectFactoryImpl : IObjectFactory
     {
-        public static T Create<T>(params object[] parameters) where T : class
+        public T Create<T>(params object[] parameters) where T : class
         {
             Type type = typeof(T);
             object obj = Create(type, parameters);
             return obj as T;
         }
 
-        public static Type ImplFor(Type type)
+        public Type ImplFor(Type type)
         {
             string interfaceName = string.Format("{0}.Impl.{1}Impl", type.Namespace, type.Name.Substring(1, type.Name.Length - 1));
-            Type classType = ObjectFactory.TypeFrom(interfaceName);
+            Type classType = TypeFrom(interfaceName);
             if (classType == null)
             {
                 throw new NotImplementedException();
@@ -31,8 +32,12 @@ namespace Tree.Factory
             return classType;
         }
 
-        public static object Create(Type type, params object[] parameters)
+        public object Create(Type type, params object[] parameters)
         {
+            if (type.IsInterface)
+            {
+                type = ImplFor(type);
+            }
             Type[] parametersType = new Type[0];
             if (parameters != null)
             {
@@ -43,14 +48,13 @@ namespace Tree.Factory
                 }
             }
             object obj = FormatterServices.GetUninitializedObject(type);
-            ObjectInjector.Inject(obj, type);
-            type.GetConstructor(parametersType).Invoke(obj, parameters);
-
+            Core.Injector.Inject(obj, type);
             if (obj is IConfigurable)
             {
-                ContainerElement el = ObjectConfiguration.ConfigurationFor(type); 
-                ((IConfigurable)obj).Configure(el);
+                ObjectConfiguration.Configure(type, obj);
+                ((IConfigurable)obj).Configure();
             }
+            type.GetConstructor(parametersType).Invoke(obj, parameters);
             if (obj is IInitializable)
             {
                 ((IInitializable)obj).Initialize();
@@ -60,9 +64,9 @@ namespace Tree.Factory
                 ((IStartable)obj).Start();
             }
             return obj;
-        }        
+        }
 
-        public static Type TypeFrom(string type)
+        public Type TypeFrom(string type)
         {
             Type classType = Type.GetType(type);
             if (classType == null)
@@ -98,7 +102,7 @@ namespace Tree.Factory
             return classType;
         }
 
-        private static Type TypeFromFullname(string type, string name)
+        public Type TypeFromFullname(string type, string name)
         {
             string implName = string.Format("{0}, {1}", type, name);
             return Type.GetType(implName);

@@ -19,9 +19,8 @@ namespace TreeTest.Impl
             return val;
         }
 
-        public void Configure(ContainerElement element)
+        public void Configure()
         {
-            val = element.Impl;
         }
     }
 }

@@ -98,10 +98,6 @@
       <Project>{27F60721-5B92-4FB8-8844-B0533B5C879B}</Project>
       <Name>Archeio</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Daemon\Daemon.csproj">
-      <Project>{4DD5B012-AFD6-4A75-B02A-2202E76D3393}</Project>
-      <Name>Daemon</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Grafeas\Grafeas.csproj">
       <Project>{940148A5-0224-4655-B643-E1FDF53466D4}</Project>
       <Name>Grafeas</Name>
@@ -109,6 +105,10 @@
     <ProjectReference Include="..\Tree\Tree.csproj">
       <Project>{8A9E2B99-E903-456B-BAAF-F68B689C56C5}</Project>
       <Name>Tree</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{F6D3A2DC-CE09-4604-AD33-72A5A82D5F5F}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

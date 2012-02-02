@@ -9,16 +9,15 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
-using System.Web.UI.MobileControls;
-using System.Collections.Generic;
-using AspNetDemo.Chat.Impl;
+using Tree.Archeio.ObjectStore;
 
-namespace AspNetDemo.Chat
-{   
-    public interface IChat 
+namespace AspNetDemo.Chat.Impl
+{
+    [Serializable()]
+    public class ChatMessage : PersistentObject
     {
-        void Send(string who, string message);
-
-        List<ChatMessage> Messages();
+        public string Message { get; set; }
+        public long Id { get; set; }
     }
+    
 }

@@ -14,10 +14,11 @@ using AspNetDemo.Chat;
 using Tree.Container;
 using Tree.Factory;
 using AspNetDemo.Chat.Impl;
+using Tree;
 
 public partial class _Default : Page 
 {
-    private IChat chat = ObjectContainer.Lookup<IChat>();
+    private IChat chat = Core.Container.Lookup<IChat>();
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -30,9 +31,9 @@ public partial class _Default : Page
     private void Render()
     {
         LabelMessages.Text = "";
-        foreach (String str in chat.Messages())
+        foreach (ChatMessage c in chat.Messages())
         {
-            LabelMessages.Text = str + "<br>" + LabelMessages.Text;
+            LabelMessages.Text = c.Message + "<br>" + LabelMessages.Text;
         }
     }
 

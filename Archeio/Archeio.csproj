@@ -36,6 +36,7 @@
       <HintPath>..\Thirdies\Bamboo.Prevalence.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -44,7 +45,7 @@
     <Compile Include="ObjectStore\Impl\Commands\RemoveFromCacheCommand.cs" />
     <Compile Include="ObjectStore\Impl\Commands\UpdateOnCacheCommand.cs" />
     <Compile Include="ObjectStore\Impl\PrevalenceObjectStore.cs" />
-    <Compile Include="ObjectStore\ObjectStore.cs" />
+    <Compile Include="ObjectStore\IObjectStore.cs" />
     <Compile Include="ObjectStore\PersistentObject.cs" />
     <Compile Include="ObjectStore\PrevalentCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

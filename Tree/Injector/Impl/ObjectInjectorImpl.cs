@@ -5,16 +5,16 @@ using System.Reflection;
 using Tree.Factory;
 using Tree.Container;
 
-namespace Tree.Injector
+namespace Tree.Injector.Impl
 {
-    public class ObjectInjector
+    class ObjectInjectorImpl : IObjectInjector
     {
-        public static void Inject(object obj)
+        public void Inject(object obj)
         {
             Inject(obj, obj.GetType());
         }
 
-        public static void Inject(object obj, Type objType)
+        public void Inject(object obj, Type objType)
         {
             foreach (FieldInfo field in objType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic))
             {
@@ -22,7 +22,8 @@ namespace Tree.Injector
                 {
                     if (attribute is Inject)
                     {
-                        field.SetValue(obj, ObjectContainer.Lookup(field.FieldType, ((Inject)attribute).Parameters));
+                        Type t = field.FieldType;
+                        field.SetValue(obj, Core.Container.Lookup(t, ((Inject)attribute).Parameters));
                     }
                 }
             }

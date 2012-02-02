@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Tree.Daemon
 {
-    public interface IWrappedDaemon
+    public interface IWrappedDromeas
     {        
         void Start(string[] args);
         void Stop();

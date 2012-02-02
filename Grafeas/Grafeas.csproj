@@ -44,6 +44,7 @@
     <Compile Include="Log\ILogAppender.cs" />
     <Compile Include="Log\ILogger.cs" />
     <Compile Include="Log\Impl\ConsoleLogger.cs" />
+    <Compile Include="Log\Impl\LogDateTimeFieldAttribute.cs" />
     <Compile Include="Log\Impl\EventLogger.cs" />
     <Compile Include="Log\Impl\FileLogger.cs" />
     <Compile Include="Log\Impl\LogFieldAttribute.cs" />

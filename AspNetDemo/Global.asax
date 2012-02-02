@@ -4,12 +4,12 @@
 
     void Application_Start(object sender, EventArgs e) 
     {
-        Tree.Container.ObjectContainer.Static.Start();
+        Tree.Core.Container.ToString();            
     }
     
     void Application_End(object sender, EventArgs e)
     {
-        Tree.Container.ObjectContainer.Static.Stop();
+        Tree.Core.Container.Stop();     
     }
         
     void Application_Error(object sender, EventArgs e) 
